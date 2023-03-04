@@ -4,6 +4,7 @@ import requests
 import json
 from shiny import ui, render, App, reactive, Inputs, Outputs, Session
 from pandas import json_normalize
+from pathlib import Path
 
 # Get Liquidity Pool Data
 pool_ids = requests.get("https://node-api.flipsidecrypto.com/api/v2/queries/355406c5-ed57-430d-8940-1bf4d11a64cc/data/latest")
@@ -15,8 +16,9 @@ last30_prices = requests.get("https://node-api.flipsidecrypto.com/api/v2/queries
 price_json = last30_prices.json()
 prices = json_normalize(price_json)
 
-app_ui = ui.page_fixed(
-    ui.panel_title("Osmosis Impermanent Loss Calculator"),
+app_ui = ui.page_fluid(
+    ui.tags.style((Path(__file__).parent / "style.css").read_text()),
+    ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"),
     ui.layout_sidebar(
         ui.panel_sidebar(
             ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
