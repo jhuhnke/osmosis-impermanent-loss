@@ -20,17 +20,53 @@ app_ui = ui.page_fixed(
     ui.layout_sidebar(
         ui.panel_sidebar(
             ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
+            ui.input_numeric("t1", "Number of Token 1", value = 1),
             ui.input_slider("rt1", "Token 1 Percentage Price Change", -100, 100, 0, step=0.5),
-            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5)
+            ui.input_numeric("t2", "Number of Token 2", value = 1),
+            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5),
+            ui.input_numeric("time", "Number of Days You Plan To LP", value = 10)
         ),
         ui.panel_main(
             ui.output_text_verbatim("txt"),
+            ui.output_text_verbatim("mov_avg"), 
+            ui.output_text_verbatim("values")
             #ui.output_plot("price_plot")
         )
     )
 )
 
 def server(input: Inputs, output: Outputs, session: Session):
+    @reactive.Calc
+    async def moving_avg():
+        if input.pool() == "":
+            return ""
+        asset1 = pool_id.loc[int(input.pool()), "ASSET_1"]
+        asset2 = pool_id.loc[int(input.pool()), "ASSET_2"]
+        t1a = sum(prices.loc[prices["CURRENCY"] == asset1, "PRICE"]) / 720
+        t2a = sum(prices.loc[prices["CURRENCY"] == asset2, "PRICE"]) / 720
+        return t1a, t2a
+    
+    @reactive.Calc
+    async def end_values(): 
+        moving = await moving_avg()
+        if input.pool() == "":
+            return ""
+        
+        ## LP values 
+        lp_val_entry = (input.t1()*moving[0] + input.t2()*moving[1]) / 2
+        t1_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]
+        t2_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1]
+        t1_lp_exit = (((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]) * moving[0]*input.rt1()/100
+        t2_lp_exit = (((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1]) * moving[1]*input.rt2()/100
+        total_lp_exit = ((((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]) * moving[0]*input.rt1()/100) + ((((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1])*moving[1]*input.rt2()/100)
+
+        ## Hodl Values
+        t1_hodl = input.t1() * moving[0] * input.rt1() / 100
+        t2_hodl = input.t2() * moving[1] * input.rt2() / 100
+        t2_hodl_total = t1_hodl + t2_hodl
+
+        return t1_lp_exit, t2_lp_exit, total_lp_exit, t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry
+    
     @output
     @render.text
     def txt(): 
@@ -39,6 +75,19 @@ def server(input: Inputs, output: Outputs, session: Session):
         token2 = pool_id.loc[int(input.pool()), "TOKEN_2"]
         return f"Your Liquidity Pool is {pool_num} \nThis pool consists of {token1} and {token2}"
     
+    @output
+    @render.text
+    async def mov_avg(): 
+        moving = await moving_avg()
+        return f"The 30 day moving avg of token 1 is ${moving[0]}. \nThe 30 day moving avg of token 2 is ${moving[1]}."
+    
+    @output 
+    @render.text
+    async def values(): 
+        prices = await end_values() 
+        return f"Entry value ${prices[6]} \nThe value of your LP Position Changes By: ${prices[0]} Token 1, ${prices[1]} Token 2, ${prices[2]} Total \nHodl Values Change By: ${prices[3]} Token 1, ${prices[4]} Token 2, and ${prices[5]} in Total."
+    
+        
     # @output
     # @render.plot
     # def price_plot():
