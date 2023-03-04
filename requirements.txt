@@ -1,3 +1,5 @@
 numpy
 shiny
+requests
+json
 matplotlib
