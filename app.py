@@ -21,7 +21,7 @@ app_ui = ui.page_fluid(
     ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"),
     ui.row(
         ui.column(
-            6,
+            5,
             ui.tags.div(class_="box", children=[
                 ui.tags.div(class_="pool_selector", children=[
                     ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
@@ -34,19 +34,23 @@ app_ui = ui.page_fluid(
                         ), 
                         ui.column(
                             6, 
-                            ui.output_text_verbatim("token1")
+                            ui.tags.div(class_="name", children=[
+                                ui.output_text_verbatim("token1")
+                            ]),
                         ),
                     ),
                     ui.row(
                         ui.column(
-                            4, 
-                            ui.input_numeric("t1", "Number of Token 1", value = 1),
+                            12, 
+                            ui.input_numeric("t1", "Number of Token 1", value = 1)
                         ), 
-                        ui.column(
-                            8, 
-                            ui.input_slider("rt1", "Token 1 Percentage Price Change", -100, 100, 0, step=0.5),
-                        ),
                     ),
+                    ui.row(
+                        ui.column(
+                            12, 
+                            ui.input_slider("rt1", "Token 1 Percentage Price Change", -100, 100, 0, step=0.5)
+                        ),
+                    ), 
                     ui.row(
                         ui.column(
                             6, 
@@ -54,19 +58,23 @@ app_ui = ui.page_fluid(
                         ), 
                         ui.column(
                             6, 
-                            ui.output_text_verbatim("token2")
+                            ui.tags.div(class_="name", children=[
+                                ui.output_text_verbatim("token2")
+                            ]),
                         ),
                     ),
                     ui.row(
                         ui.column(
                             4, 
                             ui.input_numeric("t2", "Number of Token 2", value = 1),
-                        ), 
-                        ui.column(
-                            8, 
-                            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5),
-                        ),
+                        )
                     ),
+                    ui.row(
+                        ui.column(
+                            12, 
+                            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5)
+                        ),
+                    ), 
                 ]), 
             ]),
         ),
@@ -237,7 +245,11 @@ app_ui = ui.page_fluid(
             ])
         ),
     ),
-      
+    ui.row(
+        ui.tags.div(class_="footer", children=[
+            ui.tags.textarea("Powered By Flipside \nMade with Love By web3_analyst")
+        ]),
+    )  
 )
 
 def server(input: Inputs, output: Outputs, session: Session):

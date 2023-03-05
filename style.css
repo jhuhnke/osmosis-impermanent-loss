@@ -10,6 +10,15 @@ body {
     padding: 15px;
 }
 
+.main_col-container {
+    display: table; 
+    width: 100%; 
+}
+
+.main_col {
+    display: table-cell;
+}
+
 .box {
     border-radius: 25px; 
     margin: auto; 
@@ -23,6 +32,56 @@ body {
     padding: 5px;
 }
 
+#pool {
+    text-align: left;
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+    outline-width: light;
+    outline-color: #E6B131;
+    outline-style: solid;
+}
+
+#token1 {
+    text-align: left; 
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+}
+
+#t1 {
+    text-align: left;
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+    outline-width: light;
+    outline-color: #E6B131;
+    outline-style: solid;
+}
+
+#rt1 {
+    background: #E6B131;
+    border-color: #E6B131;
+    color: #E6B131
+}
+
+#token2 {
+    text-align: left; 
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+}
+
+#t2 {
+    text-align: left;
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+    outline-width: light;
+    outline-color: #E6B131;
+    outline-style: solid;
+}
+
 .pool_tokens {
     text-align: left; 
     color: #FFFFFF; 
@@ -33,7 +92,7 @@ body {
 .heading {
     text-align: left; 
     color: #FFFFFF;
-    padding: 5px; 
+    padding: 10px; 
 } 
 
 .output_text {
@@ -47,4 +106,11 @@ body {
     color: #FFFFFF; 
     padding: 5px;
     vertical-align: top;
+}
+
+.footer {
+    border-radius: 25px; 
+    margin: auto; 
+    background-color: #2D2755;
+    padding: 20px;
 }
