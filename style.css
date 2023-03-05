@@ -9,3 +9,42 @@ body {
     color: #FFFFFF; 
     padding: 15px;
 }
+
+.box {
+    border-radius: 25px; 
+    margin: auto; 
+    background-color: #2D2755;
+    padding: 20px;
+}
+
+.pool_selector {
+    text-align: left;
+    color: #FFFFFF; 
+    padding: 5px;
+}
+
+.pool_tokens {
+    text-align: left; 
+    color: #FFFFFF; 
+    padding: 5px; 
+    background-color: #2D2755;
+}
+
+.heading {
+    text-align: left; 
+    color: #FFFFFF;
+    padding: 5px; 
+} 
+
+.output_text {
+    text-align: center; 
+    color: #FFFFFF; 
+    padding: 5px; 
+}
+
+.col-label {
+    text-align: left;
+    color: #FFFFFF; 
+    padding: 5px;
+    vertical-align: top;
+}

@@ -19,22 +19,225 @@ prices = json_normalize(price_json)
 app_ui = ui.page_fluid(
     ui.tags.style((Path(__file__).parent / "style.css").read_text()),
     ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"),
-    ui.layout_sidebar(
-        ui.panel_sidebar(
-            ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
-            ui.input_numeric("t1", "Number of Token 1", value = 1),
-            ui.input_slider("rt1", "Token 1 Percentage Price Change", -100, 100, 0, step=0.5),
-            ui.input_numeric("t2", "Number of Token 2", value = 1),
-            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5),
-            ui.input_numeric("time", "Number of Days You Plan To LP", value = 10)
+    ui.row(
+        ui.column(
+            6,
+            ui.tags.div(class_="box", children=[
+                ui.tags.div(class_="pool_selector", children=[
+                    ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
+                ]),
+                ui.tags.div(class_="pool_tokens", children=[
+                    ui.row(
+                        ui.column(
+                            6, 
+                            ui.tags.h5({"class": "token_name"}, "Token 1"),
+                        ), 
+                        ui.column(
+                            6, 
+                            ui.output_text_verbatim("token1")
+                        ),
+                    ),
+                    ui.row(
+                        ui.column(
+                            4, 
+                            ui.input_numeric("t1", "Number of Token 1", value = 1),
+                        ), 
+                        ui.column(
+                            8, 
+                            ui.input_slider("rt1", "Token 1 Percentage Price Change", -100, 100, 0, step=0.5),
+                        ),
+                    ),
+                    ui.row(
+                        ui.column(
+                            6, 
+                            ui.tags.h5({"class": "token_name"}, "Token 2"),
+                        ), 
+                        ui.column(
+                            6, 
+                            ui.output_text_verbatim("token2")
+                        ),
+                    ),
+                    ui.row(
+                        ui.column(
+                            4, 
+                            ui.input_numeric("t2", "Number of Token 2", value = 1),
+                        ), 
+                        ui.column(
+                            8, 
+                            ui.input_slider("rt2", "Token 2 Percentage Price Change", -100, 100, 0, step=0.5),
+                        ),
+                    ),
+                ]), 
+            ]),
         ),
-        ui.panel_main(
-            ui.output_text_verbatim("txt"),
-            ui.output_text_verbatim("mov_avg"), 
-            ui.output_text_verbatim("values")
-            #ui.output_plot("price_plot")
-        )
-    )
+        ui.column(
+            6,
+            ui.tags.div(class_="box", children=[
+                ui.row(
+                    ui.tags.h5({"class": "heading"}, "Input Values"),
+                ), 
+                ui.row(
+                    ui.column(
+                        3, 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Token 1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Token 2"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Total"),
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3, 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("symbol1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("symbol2"),
+                    ), 
+                    ui.column(
+                        3, 
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "# Tokens"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("num_t1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("num_t2"),
+                    ), 
+                    ui.column(
+                        3, 
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "Price (30 Day Avg)"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("mov_avg1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("mov_avg2"),
+                    ), 
+                    ui.column(
+                        3, 
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "USD Value"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("usd_val1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("usd_val2"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("usd_valt"),
+                    ), 
+                ),
+                ui.row(
+                    ui.tags.h5({"class": "heading"}, "Future Values"),
+                ), 
+                ui.row(
+                    ui.column(
+                        3, 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Token 1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Token 2"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.tags.h6({"class": "output_text"}, "Total")
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "# Tokens") 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_t1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_t2"),
+                    ), 
+                    ui.column(
+                        3,        
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "USD Value") 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_lp1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_lp2"),
+                    ), 
+                    ui.column(
+                        3,
+                        ui.output_text_verbatim("f_lpt")        
+                    ), 
+                ),
+                ui.row(
+                    ui.column(
+                        3,
+                        ui.tags.h6({"class": "col-label"}, "Hodl Value") 
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_h1"),
+                    ), 
+                    ui.column(
+                        3, 
+                        ui.output_text_verbatim("f_h2"),
+                    ), 
+                    ui.column(
+                        3,
+                        ui.output_text_verbatim("f_ht")        
+                    ), 
+                ),
+            ])
+        ),
+    ),
+      
 )
 
 def server(input: Inputs, output: Outputs, session: Session):
@@ -67,41 +270,119 @@ def server(input: Inputs, output: Outputs, session: Session):
         t2_hodl = input.t2() * moving[1] * input.rt2() / 100
         t2_hodl_total = t1_hodl + t2_hodl
 
-        return t1_lp_exit, t2_lp_exit, total_lp_exit, t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry
+        return t1_lp_exit, t2_lp_exit, total_lp_exit, t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, t1_lp, t2_lp
     
     @output
     @render.text
-    def txt(): 
-        pool_num = pool_id.loc[int(input.pool()), "POOL_ID"]
+    def token1(): 
         token1 = pool_id.loc[int(input.pool()), "TOKEN_1"]
-        token2 = pool_id.loc[int(input.pool()), "TOKEN_2"]
-        return f"Your Liquidity Pool is {pool_num} \nThis pool consists of {token1} and {token2}"
+        return f"{token1}"
     
     @output
     @render.text
-    async def mov_avg(): 
+    def token2(): 
+        token2 = pool_id.loc[int(input.pool()), "TOKEN_2"]
+        return f"{token2}"
+    
+    @output
+    @render.text
+    def symbol1(): 
+        symbol1 = pool_id.loc[int(input.pool()), "SYMBOL_1"]
+        return f"{symbol1}"
+    
+    @output
+    @render.text
+    def symbol2(): 
+        symbol2 = pool_id.loc[int(input.pool()), "SYMBOL_2"]
+        return f"{symbol2}"
+    
+    @output
+    @render.text
+    def num_t1(): 
+        return f"{str(input.t1())}"
+    
+    @output
+    @render.text
+    def num_t2(): 
+        return f"{str(input.t2())}"
+    
+    @output
+    @render.text
+    async def mov_avg1(): 
         moving = await moving_avg()
-        return f"The 30 day moving avg of token 1 is ${moving[0]}. \nThe 30 day moving avg of token 2 is ${moving[1]}."
+        return f"${moving[0]}"
+    
+    @output
+    @render.text
+    async def mov_avg2(): 
+        moving = await moving_avg()
+        return f"${moving[1]}"
+    
+    @output
+    @render.text
+    async def usd_val1(): 
+        moving = await moving_avg()
+        return f"${moving[0]*input.t1()}"
+    
+    @output
+    @render.text
+    async def usd_val2(): 
+        moving = await moving_avg()
+        return f"${moving[1]*input.t2()}"
+    
+    @output
+    @render.text
+    async def usd_valt(): 
+        moving = await moving_avg()
+        return f"${moving[0]*input.t1()+moving[1]*input.t2()}"
     
     @output 
     @render.text
-    async def values(): 
-        prices = await end_values() 
-        return f"Entry value ${prices[6]} \nThe value of your LP Position Changes By: ${prices[0]} Token 1, ${prices[1]} Token 2, ${prices[2]} Total \nHodl Values Change By: ${prices[3]} Token 1, ${prices[4]} Token 2, and ${prices[5]} in Total."
+    async def f_t1(): 
+        end = await end_values()
+        return f"{end[7]}"
     
-        
-    # @output
-    # @render.plot
-    # def price_plot():
-    #     asset1 = pool_id.loc[int(input.pool()), "ASSET_1"]
-    #     asset2 = pool_id.loc[int(input.pool()), "ASSET_2"]
-    #     date = prices.loc[prices["CURRENCY"] == asset1, "RECORDED_HOUR"]
-    #     price1 = prices.loc[prices["CURRENCY"] == asset1, "PRICE"]
-    #     price2 = prices.loc[prices["CURRENCY"] == asset2, "RECORDED_HOUR"]
-
-    #     ## Create the plot 
-    #     fig, ax = plt.subplots()
-    #     ax.plot(date, price1)
-    #     return fig
+    @output 
+    @render.text
+    async def f_t2(): 
+        end = await end_values()
+        return f"{end[8]}"
+    
+    @output 
+    @render.text
+    async def f_lp1(): 
+        end = await end_values()
+        return f"${end[0]}"
+    
+    @output 
+    @render.text
+    async def f_lp2(): 
+        end = await end_values()
+        return f"${end[1]}"
+    
+    @output 
+    @render.text
+    async def f_lpt(): 
+        end = await end_values()
+        return f"${end[2]}"
+    
+    @output 
+    @render.text
+    async def f_h1(): 
+        end = await end_values()
+        return f"${end[3]}"
+    
+    @output 
+    @render.text
+    async def f_h2(): 
+        end = await end_values()
+        return f"${end[4]}"
+    
+    @output 
+    @render.text
+    async def f_ht(): 
+        end = await end_values()
+        return f"${end[5]}"
+    
 
 app = App(app_ui, server, debug=True)
