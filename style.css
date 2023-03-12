@@ -49,20 +49,13 @@ body {
     background-color: #2D2755;
 }
 
-#t1 {
-    text-align: left;
-    color: #FFFFFF; 
-    padding: 5px; 
-    background-color: #2D2755;
-    outline-width: light;
-    outline-color: #E6B131;
-    outline-style: solid;
+.irs {
+	background-color: #2D2755;
 }
 
-#rt1 {
-    background: #E6B131;
-    border-color: #E6B131;
-    color: #E6B131
+.irs-bar {
+    color: #E6B131;
+    background-color: #E6B131;
 }
 
 #token2 {

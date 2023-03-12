@@ -41,7 +41,7 @@ app_ui = ui.page_fluid(
                     ),
                     ui.row(
                         ui.column(
-                            12, 
+                            4, 
                             ui.input_numeric("t1", "Number of Token 1", value = 1)
                         ), 
                     ),
@@ -284,6 +284,16 @@ def server(input: Inputs, output: Outputs, session: Session):
 
         return t1_lp_exit, t2_lp_exit, total_lp_exit, t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, t1_lp, t2_lp
     
+    @reactive.Calc
+    async def usd_values(): 
+        moving = await moving_avg()
+        v1 = moving[0]*input.t1()
+        v2 = moving[1]*input.t2()
+        vt = moving[0]*input.t1()+moving[1]*input.t2()
+
+        return v1, v2, vt
+
+    
     @output
     @render.text
     def token1(): 
@@ -363,38 +373,44 @@ def server(input: Inputs, output: Outputs, session: Session):
     @output 
     @render.text
     async def f_lp1(): 
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[0], 3)}"
+        return f"${round(start[0]+end[0], 3)}"
     
     @output 
     @render.text
     async def f_lp2(): 
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[1], 3)}"
+        return f"${round(start[1]+end[1], 3)}"
     
     @output 
     @render.text
-    async def f_lpt(): 
+    async def f_lpt():
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[2], 3)}"
+        return f"${round(start[2]+end[2], 3)}"
     
     @output 
     @render.text
     async def f_h1(): 
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[3], 3)}"
+        return f"${round(start[0]+end[3], 3)}"
     
     @output 
     @render.text
     async def f_h2(): 
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[4], 3)}"
+        return f"${round(start[1]+end[4], 3)}"
     
     @output 
     @render.text
     async def f_ht(): 
+        start = await usd_values()
         end = await end_values()
-        return f"${round(end[5], 3)}"
+        return f"${round(start[2]+end[5], 3)}"
     
 
 app = App(app_ui, server, debug=True)
