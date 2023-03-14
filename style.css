@@ -1,109 +1,84 @@
 body {
-    background-color: #231D4B;
+    background-color: #080424;
 }
+ 
+@font-face {  
+    src: url(Poppins-Regular.ttf);
+    font-family: "Poppins";
+  } 
 
 .title {
     margin: auto;
     width: 50%;
     text-align: center;
-    color: #FFFFFF; 
+    color: #d2d0ff; 
     padding: 15px;
-}
-
-.main_col-container {
-    display: table; 
-    width: 100%; 
-}
-
-.main_col {
-    display: table-cell;
+    font-family: 'Poppins';
 }
 
 .box {
     border-radius: 25px; 
-    margin: auto; 
-    background-color: #2D2755;
+    margin: auto;
+    width: 75%; 
+    background-color: #140e35;
     padding: 20px;
 }
 
-.pool_selector {
-    text-align: left;
-    color: #FFFFFF; 
-    padding: 5px;
-}
-
-#pool {
-    text-align: left;
-    color: #FFFFFF; 
+.shiny-bound-input {
+    text-align: right;
+    color: #d2d0ff; 
     padding: 5px; 
-    background-color: #2D2755;
+    background-color: #140e35;
     outline-width: light;
     outline-color: #E6B131;
     outline-style: solid;
+    border: none;
+    font-family: 'Poppins'; 
 }
 
-#token1 {
-    text-align: left; 
-    color: #FFFFFF; 
-    padding: 5px; 
-    background-color: #2D2755;
-}
-
-.irs {
-	background-color: #2D2755;
-}
-
-.irs-bar {
-    color: #E6B131;
-    background-color: #E6B131;
-}
-
-#token2 {
-    text-align: left; 
-    color: #FFFFFF; 
-    padding: 5px; 
-    background-color: #2D2755;
-}
-
-#t2 {
+.shiny-text-output {
     text-align: left;
-    color: #FFFFFF; 
+    color: #d2d0ff; 
     padding: 5px; 
-    background-color: #2D2755;
-    outline-width: light;
-    outline-color: #E6B131;
-    outline-style: solid;
+    background-color: #140e35;
+    border: none; 
+    text-align: right;
+    font-family: 'Poppins'; 
 }
 
-.pool_tokens {
-    text-align: left; 
-    color: #FFFFFF; 
-    padding: 5px; 
-    background-color: #2D2755;
+.pool-info {
+    margin: auto; 
+    padding: 10px;
+    color: #d2d0ff;
+    font-family: 'Poppins';  
 }
 
 .heading {
-    text-align: left; 
-    color: #FFFFFF;
+    text-align: center; 
+    color: #d2d0ff;
     padding: 10px; 
+    font-family: 'Poppins'; 
 } 
 
 .output_text {
     text-align: center; 
-    color: #FFFFFF; 
+    color: #d2d0ff; 
     padding: 5px; 
+    font-family: 'Poppins'; 
 }
 
 .col-label {
     text-align: left;
-    color: #FFFFFF; 
+    color: #d2d0ff; 
     padding: 5px;
     vertical-align: top;
+    font-family: 'Poppins'; 
 }
 
 .footer {
     border-radius: 25px; 
     margin: auto; 
-    background-color: #2D2755;
+    width: 75%;
+    background-color: #140e35;
     padding: 20px;
 }
