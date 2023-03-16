@@ -1,11 +1,10 @@
 body {
     background-color: #080424;
+    background-repeat: repeat-y;
+    margin: 5px; 
+    background-image: url('img/bitmap.png'); 
+    background-size: cover;
 }
- 
-@font-face {  
-    src: url(Poppins-Regular.ttf);
-    font-family: "Poppins";
-  } 
 
 .title {
     margin: auto;
@@ -13,27 +12,51 @@ body {
     text-align: center;
     color: #d2d0ff; 
     padding: 15px;
-    font-family: 'Poppins';
+}
+
+h5 {
+    margin: auto; 
+    text-align: center; 
+    color: #e13cbd;
+    padding: 10px;
+    font-size: x-large;
 }
 
 .box {
     border-radius: 25px; 
     margin: auto;
-    width: 75%; 
+    width: 60%; 
     background-color: #140e35;
-    padding: 20px;
+    padding: 30px;
+    display: table; 
+    align-items: center;
+    justify-items: center;
 }
 
-.shiny-bound-input {
+.shiny-bound-input:not(:hover) {
     text-align: right;
     color: #d2d0ff; 
     padding: 5px; 
     background-color: #140e35;
     outline-width: light;
-    outline-color: #E6B131;
+    outline-color: #e13cbd;
     outline-style: solid;
     border: none;
-    font-family: 'Poppins'; 
+    font-size: medium; 
+    vertical-align: center;
+}
+
+.shiny-bound-input:hover {
+    text-align: right;
+    color: #d2d0ff; 
+    padding: 5px; 
+    background-color: #140e35;
+    outline-width: light;
+    outline-color: #e13cbd;
+    outline-style: solid;
+    border: none;
+    font-size: medium; 
+    vertical-align: center;
 }
 
 .shiny-text-output {
@@ -43,28 +66,14 @@ body {
     background-color: #140e35;
     border: none; 
     text-align: right;
-    font-family: 'Poppins'; 
+    font-size: medium;
+    vertical-align: bottom; 
 }
 
 .pool-info {
     margin: auto; 
-    padding: 10px;
+    padding: 5px;
     color: #d2d0ff;
-    font-family: 'Poppins';  
-}
-
-.heading {
-    text-align: center; 
-    color: #d2d0ff;
-    padding: 10px; 
-    font-family: 'Poppins'; 
-} 
-
-.output_text {
-    text-align: center; 
-    color: #d2d0ff; 
-    padding: 5px; 
-    font-family: 'Poppins'; 
 }
 
 .col-label {
@@ -72,13 +81,26 @@ body {
     color: #d2d0ff; 
     padding: 5px;
     vertical-align: top;
-    font-family: 'Poppins'; 
+    font-size: large;
 }
 
-.footer {
-    border-radius: 25px; 
+.output_text {
+    text-align: center;
+    color: #d2d0ff; 
+    padding: 5px;
+    font-size: large;
+}
+
+textarea { 
     margin: auto; 
-    width: 75%;
+    width: 100%;
     background-color: #140e35;
-    padding: 20px;
+    color: #d2d0ff; 
+    padding: 10px;
+    text-align: center;
+    border: none;
+}
+
+hr {
+    border-top: 2px solid #d2d0ff
 }

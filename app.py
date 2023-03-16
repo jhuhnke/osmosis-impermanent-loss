@@ -151,6 +151,9 @@ app_ui = ui.page_fluid(
                     ), 
                 ),
                 ui.row(
+                    ui.hr()
+                ),
+                ui.row(
                     ui.tags.h5({"class": "heading"}, "Future Values"),
                 ), 
                 ui.row(
@@ -223,14 +226,15 @@ app_ui = ui.page_fluid(
                         ui.output_text_verbatim("f_ht")        
                     ), 
                 ),
+                ui.row(
+                    ui.column(
+                        12,
+                        ui.tags.textarea("Powered By Flipside \nMade With ❤️ By @web3_analyst")
+                    ),  
+                ),
             ])
         ),
     ),
-    ui.row(
-        ui.tags.div(class_="footer", children=[
-            ui.tags.textarea("Powered By Flipside \nMade with Love By web3_analyst")
-        ]),
-    )  
 )
 
 def server(input: Inputs, output: Outputs, session: Session):
