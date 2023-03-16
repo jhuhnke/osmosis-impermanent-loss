@@ -16,16 +16,32 @@ body {
 
 h5 {
     margin: auto; 
-    text-align: center; 
+    text-align: left; 
     color: #e13cbd;
     padding: 10px;
     font-size: x-large;
 }
 
+strong {
+    margin: auto; 
+    text-align: left; 
+    color: #e13cbd; 
+    padding: 10px; 
+    font-size: large;
+}
+
+p {
+    margin: auto; 
+    text-align: left; 
+    color: #d2d0ff; 
+    padding: 10px; 
+    font-size: medium; 
+}
+
 .box {
     border-radius: 25px; 
     margin: auto;
-    width: 60%; 
+    width: 55%; 
     background-color: #140e35;
     padding: 30px;
     display: table; 
@@ -102,5 +118,5 @@ textarea {
 }
 
 hr {
-    border-top: 2px solid #d2d0ff
+    border-top: 1px solid #d2d0ff
 }
