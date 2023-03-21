@@ -2,7 +2,7 @@ body {
     background-color: #080424;
     background-repeat: repeat-y;
     margin: 5px; 
-    background-image: url('img/bitmap.png'); 
+    background-image: url('bitmap.png'); 
     background-size: cover;
 }
 
@@ -41,7 +41,7 @@ p {
 .box {
     border-radius: 25px; 
     margin: auto;
-    width: 55%; 
+    width: 70%; 
     background-color: #140e35;
     padding: 30px;
     display: table; 
@@ -98,6 +98,7 @@ p {
     padding: 5px;
     vertical-align: top;
     font-size: large;
+    margin: 0px;
 }
 
 .output_text {

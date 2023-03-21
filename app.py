@@ -3,6 +3,7 @@ import numpy as np
 import requests
 import json
 from shiny import ui, render, App, reactive, Inputs, Outputs, Session
+from htmltools import HTML
 from pandas import json_normalize
 from pathlib import Path
 
@@ -16,8 +17,12 @@ last30_prices = requests.get("https://node-api.flipsidecrypto.com/api/v2/queries
 price_json = last30_prices.json()
 prices = json_normalize(price_json)
 
-app_ui = ui.page_fluid(
-    ui.tags.style((Path(__file__).parent / "style.css").read_text()),
+app_ui = ui.page_fixed(
+    ui.tags.head(
+        ui.tags.style(
+            (Path(__file__).parent / "style.css").read_text(), 
+        ),
+    ),
     ## Need to do: Social Links in the Header
     ## Osmosis Zone Font
     # Left most text not vertically aligned with text in output box
@@ -398,5 +403,5 @@ def server(input: Inputs, output: Outputs, session: Session):
         end = await end_values()
         return f"${round(start[2]+end[5], 3)}"
     
-
-app = App(app_ui, server, debug=True)
+www_dir = Path(__file__).parent / "www"
+app = App(app_ui, server, debug=True, static_assets=www_dir)
