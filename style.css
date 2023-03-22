@@ -8,7 +8,7 @@ body {
 
 .title {
     margin: auto;
-    width: 50%;
+    width: 75%;
     text-align: center;
     color: #d2d0ff; 
     padding: 15px;
@@ -41,6 +41,8 @@ p {
 .box {
     border-radius: 25px; 
     margin: auto;
+    margin-top: 50px; 
+    margin-bottom: 50px; 
     width: 70%; 
     background-color: #140e35;
     padding: 30px;

@@ -26,11 +26,13 @@ app_ui = ui.page_fixed(
     ## Need to do: Social Links in the Header
     ## Osmosis Zone Font
     # Left most text not vertically aligned with text in output box
-    ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"), 
     ui.row(
         ui.column(
             12,
             ui.tags.div(class_="box", children=[
+                ui.row(
+                    ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"), 
+                ),
                 ui.row(
                     ui.tags.strong("How To Use:"),
                     ui.tags.p("Fill out all the outlined boxes, using negative numbers to denote a decrease in token price. Other values will auto-populate based off the selected pool and other input values. On-chain pool and token pricing data is sourced from Flipside Crypto."),
@@ -86,9 +88,9 @@ app_ui = ui.page_fixed(
                         3, 
                     ), 
                     ui.column(
-                        3, 
+                        3,
                         ui.output_text_verbatim("symbol1"),
-                    ), 
+                    ),
                     ui.column(
                         3, 
                         ui.output_text_verbatim("symbol2"),
