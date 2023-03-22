@@ -3,9 +3,10 @@ import numpy as np
 import requests
 import json
 from shiny import ui, render, App, reactive, Inputs, Outputs, Session
-from htmltools import HTML
 from pandas import json_normalize
 from pathlib import Path
+
+
 
 # Get Liquidity Pool Data
 pool_ids = requests.get("https://node-api.flipsidecrypto.com/api/v2/queries/355406c5-ed57-430d-8940-1bf4d11a64cc/data/latest")
@@ -405,5 +406,5 @@ def server(input: Inputs, output: Outputs, session: Session):
         end = await end_values()
         return f"${round(start[2]+end[5], 3)}"
     
-www_dir = Path(__file__).parent / "www"
+www_dir = Path(__file__).parent
 app = App(app_ui, server, debug=True, static_assets=www_dir)

@@ -3,3 +3,5 @@ shiny
 requests
 json
 matplotlib
+pandas
+pathlib
