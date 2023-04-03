@@ -24,234 +24,226 @@ app_ui = ui.page_fixed(
             (Path(__file__).parent / "style.css").read_text(), 
         ),
     ),
-    ## Need to do: Social Links in the Header
-    ## Osmosis Zone Font
-    # Left most text not vertically aligned with text in output box
     ui.row(
         ui.column(
             12,
-            ui.tags.div(class_="box", children=[
-                ui.row(
-                    ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"), 
+            ui.row(
+                ui.tags.h2({"class": "title"}, "Osmosis Impermanent Loss Calculator"), 
+            ),
+            ui.row(
+                ui.tags.strong("How To Use:"),
+                ui.tags.p("Fill out all the outlined boxes, using negative numbers to denote a decrease in token price. Other values will auto-populate based off the selected pool and other input values. On-chain pool and token pricing data is sourced from Flipside Crypto."),
+            ),
+            ui.row(
+                ui.tags.strong("Important:"), 
+                ui.tags.p("This calculator is not meant to be investment or financial advice."),
+            ),
+            ui.row(
+                ui.hr()
+            ),
+            ui.row(
+                ui.tags.h5({"class": "heading"}, "Input Values"),
+            ), 
+            ui.row(
+                ui.column(
+                    3
                 ),
-                ui.row(
-                    ui.tags.strong("How To Use:"),
-                    ui.tags.p("Fill out all the outlined boxes, using negative numbers to denote a decrease in token price. Other values will auto-populate based off the selected pool and other input values. On-chain pool and token pricing data is sourced from Flipside Crypto."),
-                ),
-                ui.row(
-                    ui.tags.strong("Important:"), 
-                    ui.tags.p("This calculator is not meant to be investment or financial advice."),
-                ),
-                ui.row(
-                    ui.hr()
-                ),
-                ui.row(
-                    ui.tags.h5({"class": "heading"}, "Input Values"),
+                ui.column(
+                    3, 
+                    ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
                 ), 
-                ui.tags.div(class_="pool-info", children=[
-                    ui.row(
-                        ui.column(
-                            3
-                        ),
-                        ui.column(
-                            3, 
-                            ui.input_select("pool", "Select A Pool", pool_id['POOL_ID']),
-                        ), 
-                        ui.column(
-                            3,
-                            ui.input_numeric("fee", "Percent Pool Fee", value = 0.2, step=0.05) 
-                        ),
-                        ui.column(
-                            3,
-                        ),
-                    ),
-                ]),
-                ui.row(
-                    ui.column(
-                        3, 
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Token 1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Token 2"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Total"),
-                    ), 
+                ui.column(
+                    3,
+                    ui.input_numeric("fee", "Percent Pool Fee", value = 0.2, step=0.05) 
                 ),
-                ### Need to do - Format Boxes & Get Token Images
-                ui.row(
-                    ui.column(
-                        3, 
-                    ), 
-                    ui.column(
-                        3,
-                        ui.output_text_verbatim("symbol1"),
-                    ),
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("symbol2"),
-                    ), 
-                    ui.column(
-                        3, 
-                    ), 
+                ui.column(
+                    3,
                 ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "# Tokens"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.input_numeric("t1", None, value = 1),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.input_numeric("t2", None, value = 1),
-                    ), 
-                    ui.column(
-                        3, 
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "% Price Change"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.input_numeric("rt1", None, value = -2.0),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.input_numeric("rt2", None, value = 1),
-                    ), 
-                    ui.column(
-                        3, 
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "Price (30 Day Avg)"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("mov_avg1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("mov_avg2"),
-                    ), 
-                    ui.column(
-                        3, 
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "USD Value"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("usd_val1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("usd_val2"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("usd_valt"),
-                    ), 
-                ),
-                ui.row(
-                    ui.hr()
-                ),
-                ui.row(
-                    ui.tags.h5({"class": "heading"}, "Future Values"),
+            ),
+            ui.row(
+                ui.column(
+                    3, 
                 ), 
-                ui.row(
-                    ui.column(
-                        3, 
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Token 1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Token 2"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.tags.h6({"class": "output_text"}, "Total")
-                    ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Token 1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Token 2"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Total"),
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3, 
+                ), 
+                ui.column(
+                    3,
+                    ui.output_text_verbatim("symbol1"),
                 ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "# Tokens") 
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_t1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_t2"),
-                    ), 
-                    ui.column(
-                        3,        
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "USD Value") 
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_lp1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_lp2"),
-                    ), 
-                    ui.column(
-                        3,
-                        ui.output_text_verbatim("f_lpt")        
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        3,
-                        ui.tags.h6({"class": "col-label"}, "Hodl Value") 
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_h1"),
-                    ), 
-                    ui.column(
-                        3, 
-                        ui.output_text_verbatim("f_h2"),
-                    ), 
-                    ui.column(
-                        3,
-                        ui.output_text_verbatim("f_ht")        
-                    ), 
-                ),
-                ui.row(
-                    ui.column(
-                        12,
-                        ui.tags.textarea("Powered By Flipside \nMade With ❤️ By @web3_analyst")
-                    ),  
-                ),
-            ])
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("symbol2"),
+                ), 
+                ui.column(
+                    3, 
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "# Tokens"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.input_numeric("t1", None, value = 1),
+                ), 
+                ui.column(
+                    3, 
+                    ui.input_numeric("t2", None, value = 1),
+                ), 
+                ui.column(
+                    3, 
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "% Price Change"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.input_numeric("rt1", None, value = -2.0),
+                ), 
+                ui.column(
+                    3, 
+                    ui.input_numeric("rt2", None, value = 1),
+                ), 
+                ui.column(
+                    3, 
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "Price (30 Day Avg)"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("mov_avg1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("mov_avg2"),
+                ), 
+                ui.column(
+                    3, 
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "USD Value"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("usd_val1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("usd_val2"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("usd_valt"),
+                ), 
+            ),
+            ui.row(
+                ui.hr()
+            ),
+            ui.row(
+                ui.tags.h5({"class": "heading"}, "Future Values"),
+            ), 
+            ui.row(
+                ui.column(
+                    3, 
+                ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Token 1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Token 2"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.tags.h6({"class": "output_text"}, "Total")
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "# Tokens") 
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_t1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_t2"),
+                ), 
+                ui.column(
+                    3,        
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "USD Value") 
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_lp1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_lp2"),
+                ), 
+                ui.column(
+                    3,
+                    ui.output_text_verbatim("f_lpt")        
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    3,
+                    ui.tags.h6({"class": "col-label"}, "Hodl Value") 
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_h1"),
+                ), 
+                ui.column(
+                    3, 
+                    ui.output_text_verbatim("f_h2"),
+                ), 
+                ui.column(
+                    3,
+                    ui.output_text_verbatim("f_ht")        
+                ), 
+            ),
+            ui.row(
+                ui.column(
+                    12,
+                    ui.tags.textarea("Powered By Flipside \nMade With ❤️ By @web3_analyst")
+                ),  
+            ),
         ),
     ),
 )

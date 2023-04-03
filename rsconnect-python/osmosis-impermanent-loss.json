@@ -1,0 +1,11 @@
+{
+    "https://api.shinyapps.io": {
+        "server_url": "https://api.shinyapps.io",
+        "filename": "C:\\Users\\jessi\\git\\osmosis-impermanent-loss",
+        "app_url": "https://web3-analyst.shinyapps.io/osmosis-il-calculator/",
+        "app_id": 8646147,
+        "app_guid": null,
+        "title": "osmosis-il-calculator",
+        "app_mode": "python-shiny"
+    }
+}

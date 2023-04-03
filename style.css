@@ -38,7 +38,7 @@ p {
     font-size: medium; 
 }
 
-.box {
+.col-sm-12 {
     border-radius: 25px; 
     margin: auto;
     margin-top: 50px; 
@@ -88,7 +88,7 @@ p {
     vertical-align: bottom; 
 }
 
-.pool-info {
+.control-label {
     margin: auto; 
     padding: 5px;
     color: #d2d0ff;
