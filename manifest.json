@@ -6,6 +6,7 @@
     "entrypoint": "app"
   },
   "python": {
+    "version": "3.9.13",
     "package_manager": {
       "name": "pip",
       "package_file": "requirements.txt"
