@@ -9,7 +9,6 @@
     "version": "3.8.10",
     "package_manager": {
       "name": "pip",
-      "version": "22.2.2",
       "package_file": "requirements.txt"
     }
   },
