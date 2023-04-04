@@ -6,8 +6,6 @@ from shiny import ui, render, App, reactive, Inputs, Outputs, Session
 from pandas import json_normalize
 from pathlib import Path
 
-
-
 # Get Liquidity Pool Data
 pool_ids = requests.get("https://node-api.flipsidecrypto.com/api/v2/queries/355406c5-ed57-430d-8940-1bf4d11a64cc/data/latest")
 pools = pool_ids.json()
@@ -267,18 +265,26 @@ def server(input: Inputs, output: Outputs, session: Session):
         
         ## LP values 
         lp_val_entry = (input.t1()*moving[0] + input.t2()*moving[1]) / 2
+
+        ## 50 / 50 token-split on entry
         t1_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]
         t2_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1]
-        t1_lp_exit = (((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]) * moving[0]*input.rt1()/100
-        t2_lp_exit = (((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1]) * moving[1]*input.rt2()/100
-        total_lp_exit = ((((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]) * moving[0]*input.rt1()/100) + ((((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1])*moving[1]*input.rt2()/100)
+
+        # Re-balancing for price wreckage 
+        k1 = moving[0]/(moving[0]+input.rt1()*moving[0]) # Price ratio
+        il1 = (2*np.sqrt(abs(k1)))/(1+abs(k1))-1
+        p1 = moving[0]+input.rt1()/100*moving[0] # Output Price
+
+        k2 = moving[1]/(moving[1]+input.rt2()*moving[1])
+        il2 = (2*np.sqrt(abs(k2)))/(1+abs(k2))-1
+        p2 = moving[1]+input.rt2()/100*moving[1] 
 
         ## Hodl Values
         t1_hodl = input.t1() * moving[0] * input.rt1() / 100
         t2_hodl = input.t2() * moving[1] * input.rt2() / 100
         t2_hodl_total = t1_hodl + t2_hodl
 
-        return t1_lp_exit, t2_lp_exit, total_lp_exit, t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, t1_lp, t2_lp
+        return t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, il1, il2, p1, p2
     
     @reactive.Calc
     async def usd_values(): 
@@ -288,6 +294,15 @@ def server(input: Inputs, output: Outputs, session: Session):
         vt = moving[0]*input.t1()+moving[1]*input.t2()
 
         return v1, v2, vt
+    
+    @reactive.Calc
+    async def f_lpo():
+        moving = await moving_avg()
+        end = await end_values()
+        tot = moving[0]*input.t1()+moving[1]*input.t2()
+        amt = tot+(tot*(end[4]+end[5]))
+
+        return amt
 
     
     @output
@@ -346,57 +361,64 @@ def server(input: Inputs, output: Outputs, session: Session):
     
     @output 
     @render.text
+    async def f_lp1(): 
+        moving = await moving_avg()
+        end = await end_values()
+        tot = moving[0]*input.t1()+moving[1]*input.t2()
+        #return f"${end[4]}"
+        return f"${round(tot/2+(tot/2*(end[4]+end[5])), 3)}"
+    
+    @output 
+    @render.text
+    async def f_lp2(): 
+        moving = await moving_avg()
+        end = await end_values()
+        tot = moving[0]*input.t1()+moving[1]*input.t2()
+        #return f"${end[5]}"
+        return f"${round(tot/2+(tot/2*(end[4]+end[5])), 3)}"
+    
+    @output 
+    @render.text
+    async def f_lpt():
+        moving = await moving_avg()
+        end = await end_values()
+        tot = moving[0]*input.t1()+moving[1]*input.t2()
+        return f"${round(tot+(tot*(end[4]+end[5])), 3)}"
+    
+    @output 
+    @render.text
     async def f_t1(): 
         end = await end_values()
-        return f"{round(end[7], 3)}"
+        amt = await f_lpo()
+        return f"{round(end[6]*amt, 3)}"
     
     @output 
     @render.text
     async def f_t2(): 
         end = await end_values()
-        return f"{round(end[8], 3)}"
-    
-    @output 
-    @render.text
-    async def f_lp1(): 
-        start = await usd_values()
-        end = await end_values()
-        return f"${round((start[0]+end[0])*(100-input.fee())/100, 3)}"
-    
-    @output 
-    @render.text
-    async def f_lp2(): 
-        start = await usd_values()
-        end = await end_values()
-        return f"${round(start[1]+end[1]*(100-input.fee())/100, 3)}"
-    
-    @output 
-    @render.text
-    async def f_lpt():
-        start = await usd_values()
-        end = await end_values()
-        return f"${round(start[2]+end[2]*(100-input.fee())/100, 3)}"
+        amt = await f_lpo()
+        return f"{round(end[7]*amt, 3)}"
     
     @output 
     @render.text
     async def f_h1(): 
         start = await usd_values()
         end = await end_values()
-        return f"${round(start[0]+end[3], 3)}"
+        return f"${round(start[0]+end[0], 3)}"
     
     @output 
     @render.text
     async def f_h2(): 
         start = await usd_values()
         end = await end_values()
-        return f"${round(start[1]+end[4], 3)}"
+        return f"${round(start[1]+end[1], 3)}"
     
     @output 
     @render.text
     async def f_ht(): 
         start = await usd_values()
         end = await end_values()
-        return f"${round(start[2]+end[5], 3)}"
+        return f"${round(start[2]+end[2], 3)}"
     
 www_dir = Path(__file__).parent
 app = App(app_ui, server, debug=True, static_assets=www_dir)
