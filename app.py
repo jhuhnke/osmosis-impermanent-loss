@@ -270,13 +270,14 @@ def server(input: Inputs, output: Outputs, session: Session):
         t1_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[0]
         t2_lp = ((input.t1()*moving[0] + input.t2()*moving[1]) / 2) / moving[1]
 
-        # Re-balancing for price wreckage 
-        k1 = moving[0]/(moving[0]+input.rt1()*moving[0]) # Price ratio
-        il1 = (2*np.sqrt(abs(k1)))/(1+abs(k1))-1
-        p1 = moving[0]+input.rt1()/100*moving[0] # Output Price
+        # Price Ratios  
+        pr_sup = moving[0] / moving[1]
+        pr_new = (moving[0]+moving[0]*input.rt1()/100)/(moving[1]+moving[1]*input.rt2()/100)
+        k = pr_sup / pr_new
+        il = 2*np.sqrt(k) / (1+k) - 1
 
-        k2 = moving[1]/(moving[1]+input.rt2()*moving[1])
-        il2 = (2*np.sqrt(abs(k2)))/(1+abs(k2))-1
+        # Output Price 
+        p1 = moving[0]+input.rt1()/100*moving[0] # Output Price
         p2 = moving[1]+input.rt2()/100*moving[1] 
 
         ## Hodl Values
@@ -284,7 +285,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         t2_hodl = input.t2() * moving[1] * input.rt2() / 100
         t2_hodl_total = t1_hodl + t2_hodl
 
-        return t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, il1, il2, p1, p2
+        return t1_hodl, t2_hodl, t2_hodl_total, lp_val_entry, il, p1, p2
     
     @reactive.Calc
     async def usd_values(): 
@@ -300,7 +301,7 @@ def server(input: Inputs, output: Outputs, session: Session):
         moving = await moving_avg()
         end = await end_values()
         tot = moving[0]*input.t1()+moving[1]*input.t2()
-        amt = tot+(tot*(end[4]+end[5]))
+        amt = tot-(tot*(end[4]))
 
         return amt
 
@@ -362,42 +363,38 @@ def server(input: Inputs, output: Outputs, session: Session):
     @output 
     @render.text
     async def f_lp1(): 
-        moving = await moving_avg()
+        moving = await usd_values()
         end = await end_values()
-        tot = moving[0]*input.t1()+moving[1]*input.t2()
-        #return f"${end[4]}"
-        return f"${round(tot/2+(tot/2*(end[4]+end[5])), 3)}"
+        return f"${round((moving[2]+end[2])/2+(moving[2]+end[2])/2*end[4], 3)}"
     
     @output 
     @render.text
     async def f_lp2(): 
-        moving = await moving_avg()
+        moving = await usd_values()
         end = await end_values()
-        tot = moving[0]*input.t1()+moving[1]*input.t2()
-        #return f"${end[5]}"
-        return f"${round(tot/2+(tot/2*(end[4]+end[5])), 3)}"
+        return f"${round((moving[2]+end[2])/2+(moving[2]+end[2])/2*end[4], 3)}"
     
     @output 
     @render.text
     async def f_lpt():
-        moving = await moving_avg()
+        moving = await usd_values()
         end = await end_values()
-        tot = moving[0]*input.t1()+moving[1]*input.t2()
-        return f"${round(tot+(tot*(end[4]+end[5])), 3)}"
+        return f"${round((moving[2]+end[2])+(moving[2]+end[2])*end[4], 3)}"
     
     @output 
     @render.text
     async def f_t1(): 
+        moving = await usd_values()
         end = await end_values()
-        amt = await f_lpo()
-        return f"{round(end[6]*amt, 3)}"
+        return f"{round(((moving[2]+end[2])/2+(moving[2]+end[2])/2*end[4])/end[5], 3)}"
     
     @output 
     @render.text
     async def f_t2(): 
+        moving = await usd_values()
         end = await end_values()
-        amt = await f_lpo()
-        return f"{round(end[7]*amt, 3)}"
+        return f"{round(((moving[2]+end[2])/2+(moving[2]+end[2])/2*end[4])/end[6], 3)}"
+        #((moving[2]+end[2])/2+(moving[2]+end[2])/2*end[4])
     
     @output 
     @render.text
