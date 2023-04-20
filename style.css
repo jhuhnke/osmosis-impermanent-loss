@@ -38,18 +38,7 @@ p {
     font-size: medium; 
 }
 
-.col-sm-12 {
-    border-radius: 25px; 
-    margin: auto;
-    margin-top: 50px; 
-    margin-bottom: 50px; 
-    width: 70%; 
-    background-color: #140e35;
-    padding: 30px;
-    display: table; 
-    align-items: center;
-    justify-items: center;
-}
+
 
 .shiny-bound-input:not(:hover) {
     text-align: right;
