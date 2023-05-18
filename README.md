@@ -11,8 +11,6 @@ Right now, this bot utilizes [Flipside Crypto](https://flipsidecrypto.xyz/) Osmo
 
 #### Flipside Crypto
 
-To access the Flipside Crypto dataset, you will need a [ShroomDK API Key](https://sdk.flipsidecrypto.xyz/shroomdk). This API key is free to obtain and use once you mint it as an NFT on ETH mainnet. Ensure you have some ETH in your Metamask as gas for the minting transaction.  
-
 Alternatively, you can visit app.flipsidecrypto.com and sign up for an account using either your Discord, ETH wallet, or email. Write your query in the application's query editor, set an appropriate refresh rate in the upper right corner, and use the API button to generate a URL. Use this URL as a GET request in your code, and the Python json library to parse the query results. 
 
 #### Shiny 
